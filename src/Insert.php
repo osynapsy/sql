@@ -16,13 +16,19 @@ namespace Osynapsy\Sql;
  */
 class Insert extends AbstractSql
 {
+    public function __construct($table, array $binds = [])
+    {
+        $this->table = $table;
+        $this->binds = $binds;
+    }
+    
     public function factory()
     {
-        $fields = array_keys($this->values);
+        $fields = array_keys($this->binds);
         $placeholders = array_map(
             function ($field) {
-                $value = $this->values[$field];
-                return $value instanceof SqlExpression ? (string) $value : ':' . $field;
+                $bind = $this->binds[$field];
+                return $bind instanceof Expression ? (string) $bind : ':' . $field;
             },
             $fields
         );

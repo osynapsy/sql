@@ -40,15 +40,8 @@ namespace Osynapsy\Sql;
 abstract class AbstractSql
 {
     protected $table;
-    protected $values;
+    protected $binds;
     protected $parameters;
-    
-    public function __construct($table, array $values = [], array $parameters = [])
-    {
-        $this->table = $table;
-        $this->values = $values;
-        $this->parameters = $parameters;
-    }
 
     protected function whereConditionFactory(array $conditions, $prefix = '')
     {
@@ -66,7 +59,7 @@ abstract class AbstractSql
                 continue;
             }
             $filters[] = $field . " = :". $prefix . $field;
-            $this->values[$prefix . $field] = $value;
+            $this->binds[$prefix . $field] = $value;
         }        
         return implode(' AND ', $filters);
     }
@@ -76,14 +69,25 @@ abstract class AbstractSql
         return sprintf('%s is null', $field);
     }
 
-    protected function inClauseFactory($field, array $values)
+    protected function inClauseFactory($field, array $values, $prefix)
     {
-        return sprintf("%s in ('%s')", $field, implode("','", $values));
+        $placeholders = [];
+        foreach ($values as $i => $val) {
+            $ph = sprintf('%s%s_in_%d', $prefix, $field, $i);
+            $placeholders[] = ':' . $ph;
+            $this->binds[$ph] = $val;
+        }
+        return sprintf('%s IN (%s)', $field, implode(',', $placeholders));
     }
     
-    public function &getValues()
+    public function getBinds() : array
     {
-        return $this->values;
+        return $this->binds;
+    }
+    
+    public function getParameters() : array
+    {
+        return $this->parameters;
     }
     
     public abstract function factory();

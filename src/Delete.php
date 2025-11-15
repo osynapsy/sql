@@ -16,6 +16,12 @@ namespace Osynapsy\Sql;
  */
 class Delete extends AbstractSql
 {
+    public function __construct($table, array $parameters = [])
+    {
+        $this->table = $table;
+        $this->parameters = $parameters;
+    }
+    
     public function factory()
     {
         return sprintf(

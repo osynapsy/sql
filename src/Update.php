@@ -17,14 +17,21 @@ namespace Osynapsy\Sql;
  */
 class Update extends AbstractSql
 {
+    public function __construct($table, array $binds = [], array $parameters = [])
+    {
+        $this->table = $table;
+        $this->binds = $binds;
+        $this->parameters = $parameters;
+    }
+    
     public function factory()
     {        
         $fields = implode(', ', array_map(function ($field) {
-            $value = $this->values[$field];
+            $value = $this->binds[$field];
             return sprintf('%s = %s', $field, $value instanceof Expression ? (string) $value : ":$field");
-        }, array_keys($this->values)));
+        }, array_keys($this->binds)));
         $where = $this->whereConditionFactory($this->parameters, 'whr');
-        $command = sprintf("UPDATE %s SET %s WHERE %s", $this->table, $fields, $where);
+        $command = sprintf("UPDATE %s SET %s WHERE %s", $this->table, $fields, $where);       
         return $command;
     }
 }
