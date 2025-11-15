@@ -1,0 +1,25 @@
+{
+    "name": "osynapsy/sql",
+    "version": "1.0",
+    "homepage": "http://www.osynapsy.net/sql",
+    "type": "library",
+    "description": "Osynapsy Sql",
+    "keywords": ["sql"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pietro Celeste",
+            "email": "p.celeste@osynapsy.net",
+            "homepage": "https://github.com/osynapsy/sql/wiki"
+        }
+    ],
+    "require": {
+        "php" : ">=7.4.0",
+        "psr/http-message" : "1.1"
+    },
+    "autoload" : {
+        "psr-4": {
+            "Osynapsy\\Sql\\": "src/Osynapsy/Sql"
+        }
+    }
+}
