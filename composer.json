@@ -18,7 +18,7 @@
     },
     "autoload" : {
         "psr-4": {
-            "Osynapsy\\Sql\\": "src/Osynapsy/Sql"
+            "Osynapsy\\Sql\\": "src/"
         }
     }
 }
