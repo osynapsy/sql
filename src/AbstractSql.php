@@ -13,14 +13,14 @@ namespace Osynapsy\Sql;
  * AbstractSql
  *
  * Base class for building SQL DML statements (INSERT, UPDATE, DELETE) in a structured and backend-driven way.
- * 
+ *
  * This class provides common functionality for:
  *  - managing table and column values,
  *  - handling query parameters,
  *  - building WHERE conditions with support for NULL and IN clauses.
- * 
+ *
  * Subclasses must implement the {@link factory()} method to generate the final SQL string.
- * 
+ *
  * Example usage:
  * <code>
  * class MyInsert extends AbstractSql {
@@ -29,7 +29,7 @@ namespace Osynapsy\Sql;
  *     }
  * }
  * </code>
- * 
+ *
  * Features:
  *  - Supports automatic binding of values using named placeholders.
  *  - Handles NULL and array values in WHERE clauses.
@@ -60,7 +60,7 @@ abstract class AbstractSql
             }
             $filters[] = $field . " = :". $prefix . $field;
             $this->binds[$prefix . $field] = $value;
-        }        
+        }
         return implode(' AND ', $filters);
     }
 
@@ -69,7 +69,7 @@ abstract class AbstractSql
         return sprintf('%s is null', $field);
     }
 
-    protected function inClauseFactory($field, array $values, $prefix)
+    protected function inClauseFactory($field, array $values, $prefix = '')
     {
         $placeholders = [];
         foreach ($values as $i => $val) {
@@ -79,19 +79,19 @@ abstract class AbstractSql
         }
         return sprintf('%s IN (%s)', $field, implode(',', $placeholders));
     }
-    
+
     public function getBinds() : array
     {
         return $this->binds;
     }
-    
+
     public function getParameters() : array
     {
         return $this->parameters;
     }
-    
+
     public abstract function factory();
-    
+
     public function __toString()
     {
         return $this->factory();
