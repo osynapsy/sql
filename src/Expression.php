@@ -14,7 +14,7 @@ namespace Osynapsy\Sql;
  *
  * @author Pietro Celeste <p.celeste@spinit.it>
  */
-class SqlExpression
+class Expression
 {
     public string $expr;
 
