@@ -1,6 +1,6 @@
 {
     "name": "osynapsy/sql",
-    "version": "1.0",
+    "version": "1.0.1",
     "homepage": "http://www.osynapsy.net/sql",
     "type": "library",
     "description": "Osynapsy Sql",
