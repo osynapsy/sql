@@ -50,6 +50,10 @@ abstract class AbstractSql
         }
         $filters = [];
         foreach($conditions as $field => $value) {
+            if ($value instanceof Expression) {
+                $filters[] = sprintf("%s %s %s", $field, $value->getOperator(), strval($value));
+                continue;
+            }
             if (is_null($value)) {
                 $filters[] = $this->isNullClause($field);
                 continue;
